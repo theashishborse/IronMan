@@ -1,48 +1,83 @@
-import turtle
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
-piece1=[[(-40, 120), (-70, 260), (-130, 230), (-170, 200), (-170, 100), (-160, 40), (-170, 10), (-150, -10), (-140, 10), (-40, -20), (0, -20)],[(0, -20), (40, -20), (140, 10), (150, -10), (170, 10), (160, 40), (170, 100), (170, 200), (130, 230), (70, 260), (40, 120), (0, 120)]]
+namespace Web04
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        SqlConnection Conn = new SqlConnection("Data Source=.;Initial Catalog=Web01;Integrated Security=True");
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            DataTable dt = new DataTable();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM web3", Conn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            grdRecord.DataSource = dt;
+            grdRecord.DataBind();
+        }
+        private void GetRecord(int id)
+        {
+            DataTable dt = new DataTable();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM web3 where id='" + id + "'", Conn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                txt_name.Text = dt.Rows[0]["name"].ToString();
+                txt_address.Text = dt.Rows[0]["address"].ToString();
+                txt_email.Text = dt.Rows[0]["email"].ToString();
+                txt_contact.Text = dt.Rows[0]["contact"].ToString();
 
-piece2=[[(-40, -30), (-50, -40), (-100, -46), (-130, -40), (-176, 0), (-186, -30), (-186, -40), (-120, -170), (-110, -210), (-80, -230), (-64, -210), (0, -210)],[(0, -210), (64, -210), (80, -230), (110, -210), (120, -170), (186, -40), (186, -30), (176, 0), (130, -40), (100, -46), (50, -40), (40, -30), (0, -30)]]
+            }
+        }
 
-piece3=[[(-60, -220), (-80, -240), (-110, -220), (-120, -250),(-90, -280), (-60, -260), (-30, -260), (-20, -250), (0, -250)],[(0, -250), (20, -250), (30, -260), (60, -260), (90, -280), (120, -250),(110, -220), (80, -240), (60, -220), (0, -220)]]
+        protected void btn_fetch_Click(object sender, EventArgs e)
+        {
+            int id = Convert.ToInt32(txt_id.Text);
+            GetRecord(id);
+        }
 
+        protected void btn_insert_Click(object sender, EventArgs e)
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO web3 (name,email,address,contact)VALUES(@name,@email,@address,@contact)",Conn);
+            cmd.Parameters.AddWithValue("@name", txt_name.Text);
+            cmd.Parameters.AddWithValue("@email", txt_email.Text);
+            cmd.Parameters.AddWithValue("@address", txt_address.Text);
+            cmd.Parameters.AddWithValue("@contact", txt_contact.Text);
+            Conn.Open();
+            cmd.ExecuteNonQuery();
+            Conn.Close();
+            Page_Load(sender, e);
+        }
 
+        protected void btn_update_Click(object sender, EventArgs e)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE web3 SET name=@name, email=@email, address=@address, contact=@contact WHERE id='"+txt_id.Text+"'", Conn);
+            cmd.Parameters.AddWithValue("@id", txt_id.Text);
+            cmd.Parameters.AddWithValue("@name", txt_name.Text);
+            cmd.Parameters.AddWithValue("@email", txt_email.Text);
+            cmd.Parameters.AddWithValue("@address", txt_address.Text);
+            cmd.Parameters.AddWithValue("@contact", txt_contact.Text);
+            Conn.Open();
+            cmd.ExecuteNonQuery();
+            Conn.Close();
+            Page_Load(sender, e);
+        }
 
-turtle.bgcolor('#ba161e')
-turtle.setup(500,600)
-turtle.title("I AM IRONMAN")
-
-
-piece1Goto=(0,120)
-piece2Goto=(0,-30)
-piece3Goto=(0,-220)
-turtle.speed(2)
-
-
-def part(a,b):
-    turtle.penup()
-    turtle.goto(b)
-    turtle.pendown()
-    turtle.color('#fab104')
-    turtle.begin_fill()
-
-
-    for i in range(len(a[0])):
-        x,y=a[0][i]
-        turtle.goto(x,y)
-    
-
-    for i in range(len(a[1])):
-        x,y=a[1][i]
-        turtle.goto(x,y)
-    turtle.end_fill()
-
-
-
-part(piece1,piece1Goto)
-part(piece2,piece2Goto)
-part(piece3,piece3Goto)
-
-
-turtle.hideturtle()
-turtle.done
+        protected void btn_delete_Click(object sender, EventArgs e)
+        {
+            SqlCommand cmd = new SqlCommand("DELETE FROM web3 WHERE id=@id", Conn);
+            cmd.Parameters.AddWithValue("@id", txt_id.Text);
+            Conn.Open();
+            cmd.ExecuteNonQuery();
+            Conn.Close();
+            Page_Load(sender, e);
+        }
+    }
+}
