@@ -1,3 +1,69 @@
+ <div>
+            <div>
+                <center>
+                    <h2>Employee Data</h2>
+                </center>
+            </div>
+            <div class="col-6 m-auto">
+                <div class="row">
+                    <div class="col-2">
+                        <asp:TextBox ID="txt_id" CssClass="form-control" runat="server"></asp:TextBox><br />
+                    </div>
+                    <div class="col-4">
+                        <asp:Button ID="btn_fetch" OnClick="btn_fetch_Click" CssClass="form-control btn btn-primary" runat="server" Text="Fetch" /><br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <asp:Label ID="lbl_name" runat="server" Text="Name"></asp:Label>
+                    </div>
+                    <div class="col-6">
+                        <asp:TextBox ID="txt_name" CssClass="form-control" runat="server"></asp:TextBox><br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <asp:Label ID="lbl_email" runat="server" Text="Email"></asp:Label>
+                    </div>
+                    <div class="col-6">
+                        <asp:TextBox ID="txt_email" CssClass="form-control" runat="server"></asp:TextBox><br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <asp:Label ID="lbl_address" runat="server" Text="Address"></asp:Label>
+                    </div>
+                    <div class="col-6">
+                        <asp:TextBox ID="txt_address" CssClass="form-control" runat="server"></asp:TextBox><br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <asp:Label ID="lbl_contact" runat="server" Text="Contact"></asp:Label>
+                    </div>
+                    <div class="col-6">
+                        <asp:TextBox ID="txt_contact" CssClass="form-control" runat="server"></asp:TextBox><br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <asp:Button ID="btn_insert" OnClick="btn_insert_Click" CssClass="form-control btn btn-primary" runat="server" Text="Insert" />
+                    </div>
+                     <div class="col-2">
+                        <asp:Button ID="btn_update" OnClick="btn_update_Click" CssClass="form-control btn btn-secondary" runat="server" Text="Update" />
+                    </div>
+                     <div class="col-2">
+                        <asp:Button ID="btn_delete" OnClick="btn_delete_Click" CssClass="form-control btn btn-danger" runat="server" Text="Delete" />
+                    </div>
+                </div><br />
+                <div class="row">
+                    <asp:GridView CssClass="table table-active" ID="grdRecord" runat="server"></asp:GridView>
+                </div>
+
+            </div>
+        </div>
+-------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Data;
