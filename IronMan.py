@@ -1,3 +1,60 @@
+ 
+  protected void Page_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SP_Employeedata", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                Datatable dt = new Datatable();
+                da.Fill();
+                GVEmployee.DataSource = dt;
+                GVEmployee.DataBind();
+                con.Close();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  <div>
             <div>
                 <center>
